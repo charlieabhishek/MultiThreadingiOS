@@ -18,7 +18,30 @@ class ViewController: UIViewController {
 //        queuesWitQOS()
 //        concurrentQueues()
 //        queueWithDelay()
-          workItemExample()
+//        workItemExample()
+//        deadLock2()
+          deadLock3()
+    }
+    
+    func deadLock2(){
+        DispatchQueue.main.sync {
+            print("Main Queue Sync")
+        }
+    }
+    
+    func deadLock3(){
+        DispatchQueue.global().sync {
+            DispatchQueue.main.sync {
+                print("Main Queue Sync")
+            }
+        }
+        
+        //Below code work, as main sync stop global queue and then execute task in main queue synchronously..
+//        DispatchQueue.global().async {
+//            DispatchQueue.main.sync {
+//                print("Main Queue Sync")
+//            }
+//        }
     }
     
     func workItemExample(){
