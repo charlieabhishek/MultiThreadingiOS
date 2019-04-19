@@ -20,7 +20,43 @@ class ViewController: UIViewController {
 //        queueWithDelay()
 //        workItemExample()
 //        deadLock2()
-          deadLock3()
+//        deadLock3()
+          dispatchGrpExample()
+    }
+    
+    func task1(dispatchGroup:DispatchGroup){
+        DispatchQueue.global().async {
+            print("Task 1 executed")
+            dispatchGroup.leave()
+        }
+    }
+    
+    func task2(dispatchGroup:DispatchGroup){
+        DispatchQueue.global().async {
+            print("Task 2 executed")
+            dispatchGroup.leave()
+        }
+    }
+    
+    func task3(dispatchGroup:DispatchGroup){
+        DispatchQueue.main.async {
+            print("Task 3 executed")
+            dispatchGroup.leave()
+        }
+    }
+    
+    func dispatchGrpExample(){
+        let dispatchGroup = DispatchGroup()
+         dispatchGroup.enter()
+        task1(dispatchGroup: dispatchGroup)
+         dispatchGroup.enter()
+        task2(dispatchGroup: dispatchGroup)
+         dispatchGroup.enter()
+        task3(dispatchGroup: dispatchGroup)
+        
+        dispatchGroup.notify(queue: .main) {
+            print("All Tasks Completed..😎")
+        }
     }
     
     func deadLock2(){
