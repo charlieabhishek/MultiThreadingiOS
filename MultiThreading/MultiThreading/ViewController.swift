@@ -15,12 +15,32 @@ class ViewController: UIViewController {
 //        syncExample()
 //        asyncExample()
 //        deadLockExample1()
-        queuesWitQOS()
+//        queuesWitQOS()
+          concurrentQueues()
+    }
+    
+    func concurrentQueues(){
+        let anotherQueue = DispatchQueue(label: "com.multithreading.concurr", qos: .utility, attributes: .concurrent)
+        anotherQueue.async {
+            for i in 0..<30{
+                print("🏓",i)
+            }
+        }
+        anotherQueue.async {
+            for i in 100..<120{
+                print("⚽️",i)
+            }
+        }
+        anotherQueue.async {
+            for i in 1000..<1020{
+                print("📘",i)
+            }
+        }
     }
     
     func queuesWitQOS(){
-        let queue1 = DispatchQueue(label: "com.multithreading.queue1",qos: .userInteractive)
-        let queue2 = DispatchQueue(label: "com.multithreading.queue2",qos: .userInitiated)
+        let queue1 = DispatchQueue(label: "com.multithreading.queue1",qos: .userInitiated)
+        let queue2 = DispatchQueue(label: "com.multithreading.queue2",qos: .utility)
         queue1.async {
             for i in 0..<10{
                 print("💔",i)
@@ -30,6 +50,9 @@ class ViewController: UIViewController {
             for i in 100..<110{
                 print("💙",i)
             }
+        }
+        for i in 1000..<1010{
+            print("🎾",i)
         }
     }
     
