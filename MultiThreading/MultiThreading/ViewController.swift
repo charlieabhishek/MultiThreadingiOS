@@ -21,7 +21,32 @@ class ViewController: UIViewController {
 //        workItemExample()
 //        deadLock2()
 //        deadLock3()
-          dispatchGrpExample()
+//        dispatchGrpExample()
+          semaphoreExample()
+    }
+    
+    func semaphoreExample(){
+        
+        let semaphore = DispatchSemaphore(value: 1)
+        
+        let highPriority = DispatchQueue.global(qos: .userInitiated)
+        let lowerPriority = DispatchQueue.global(qos: .userInteractive)
+        func asyncPrint(queue:DispatchQueue, symbol:String){
+            queue.async {
+                print("\(symbol) waiting")
+                semaphore.wait() // Requesting the resource
+                
+                for i in 0...100{
+                    print(symbol,i)
+                }
+                
+                print("\(symbol) signal")
+                semaphore.signal() // Releasing the resource
+            }
+        }
+        
+        asyncPrint(queue: highPriority, symbol: "🍏")
+        asyncPrint(queue: lowerPriority, symbol: "🍎")
     }
     
     func task1(dispatchGroup:DispatchGroup){
@@ -145,7 +170,6 @@ class ViewController: UIViewController {
     
     func deadLockExample1(){
         let queueAsync = DispatchQueue(label: "com.multithreading.queueAsync")
-        let queueSync  = DispatchQueue(label: "com.multithreading.queueSync")
         
         queueAsync.async {
             for i in 1...1130{
