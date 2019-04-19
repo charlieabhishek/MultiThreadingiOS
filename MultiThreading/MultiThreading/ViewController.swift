@@ -16,7 +16,18 @@ class ViewController: UIViewController {
 //        asyncExample()
 //        deadLockExample1()
 //        queuesWitQOS()
-          concurrentQueues()
+//        concurrentQueues()
+          queueWithDelay()
+    }
+    
+    func queueWithDelay(){
+        let delayQueue = DispatchQueue(label: "delayQueueExmp",qos: .userInitiated)
+        print(Date())
+        let additionalTime:DispatchTimeInterval = .seconds(2)
+        
+        delayQueue.asyncAfter(deadline: .now()+additionalTime) {
+            print(Date())
+        }
     }
     
     func concurrentQueues(){
