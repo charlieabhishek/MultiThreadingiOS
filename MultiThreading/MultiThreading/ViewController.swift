@@ -17,7 +17,24 @@ class ViewController: UIViewController {
 //        deadLockExample1()
 //        queuesWitQOS()
 //        concurrentQueues()
-          queueWithDelay()
+//        queueWithDelay()
+          workItemExample()
+    }
+    
+    func workItemExample(){
+        var value = 10
+        
+        let workItem = DispatchWorkItem {
+            value += 5
+        }
+        
+        workItem.perform()
+        
+        let queue = DispatchQueue.global(qos: .utility)
+        queue.async(execute: workItem)
+        workItem.notify(queue: DispatchQueue.main) {
+            print("value = \(value)")
+        }
     }
     
     func queueWithDelay(){
