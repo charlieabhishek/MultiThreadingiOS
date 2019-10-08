@@ -23,13 +23,36 @@ class ViewController: UIViewController {
 //        deadLock3()
 //        dispatchGrpExample()
 //        semaphoreExample()
-          barrierConcurrent()
+        barrierConcurrent()
     }
     
     func barrierConcurrent(){
         let concurrentQueue = DispatchQueue(label: "com.concurrent.barrier.queue",attributes: .concurrent)
+        concurrentQueue.async {
+            for _ in 0...40{
+                print("🌶")
+            }
+        }
+        concurrentQueue.async {
+            for _ in 1...40{
+                print("🍗")
+            }
+        }
         concurrentQueue.async(flags:.barrier){
-             print("Barrier Concurrent task")
+            for _ in 1...30{
+                print("🐒")
+            }
+        }
+        concurrentQueue.async {
+            for _ in 1...20{
+                print("🌼")
+            }
+        }
+        
+        concurrentQueue.async {
+            for _ in 1...20{
+                print("🧭")
+            }
         }
     }
     
